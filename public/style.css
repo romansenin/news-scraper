@@ -1,0 +1,10 @@
+.navbar {
+  background-color: rgb(3, 86, 142);
+}
+
+header {
+  height: 590px;
+  background-size: cover;
+  background-position: center;
+  background-image: url(./typewriter.jpg);
+}
