@@ -1,10 +1,62 @@
-.navbar {
-  background-color: rgb(3, 86, 142);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-header {
-  height: 590px;
+html, body {
+  color: #555;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+.navbar {
+  background-color: #2980b9;
+}
+
+.navbar-toggle {
+  margin-top: 20px;
+}
+
+.navbar .nav-link {
+  font-size: 80%;
+  margin: 0 10px;
+  transition: color 0.2s, background-color 0.2s, border 0.2s;
+}
+
+.navbar-dark .navbar-nav .nav-button {
+  color: rgb(223, 217, 217);
+}
+
+.navbar-dark .navbar-nav .nav-button:hover {
+  color: rgb(255, 255, 255);
+}
+
+.wrapper {
+  height: 90vh;
   background-size: cover;
   background-position: center;
   background-image: url(./typewriter.jpg);
+}
+
+header {
+  position: absolute;
+  width: 1140px;
+  top: 16%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+h1 {
+  font-size: 95%;
+  margin-bottom: 0;
+}
+
+h2 {
+  font-size: 82%;
 }
