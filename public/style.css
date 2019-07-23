@@ -21,21 +21,24 @@ html, body {
   margin-top: 20px;
 }
 
-.navbar .nav-link {
+.navbar-dark .navbar-nav .nav-button:link,
+.navbar-dark .navbar-nav .nav-button:visited {
   font-size: 80%;
-  margin: 0 10px;
+  margin: 0 5px;
   transition: color 0.2s, background-color 0.2s, border 0.2s;
-}
-
-.navbar-dark .navbar-nav .nav-button {
+  background-color: #236d9d;
+  border-radius: 8px;
   color: rgb(223, 217, 217);
 }
 
-.navbar-dark .navbar-nav .nav-button:hover {
+.navbar-dark .navbar-nav .nav-button:hover,
+.navbar-dark .navbar-nav .nav-button:active {
+  background-color: #1d5a81;
+  border-radius: 8px;
   color: rgb(255, 255, 255);
 }
 
-.wrapper {
+.hero-wrapper {
   height: 90vh;
   background-size: cover;
   background-position: center;
@@ -59,4 +62,13 @@ h1 {
 
 h2 {
   font-size: 82%;
+}
+
+h3 {
+  background-color: #2980b9;
+  color: white;
+  padding: 20px;
+  border-radius: 3px;
+  margin: 20px 0;
+  font-size: 90%;
 }
