@@ -47,6 +47,7 @@ app.get("/scrape", function(req, res) {
             // Add the text and href of every link, and save them as properties of the result object
             result.title = $(this)
               .find("h2")
+              .first()
               .text();
             result.link = $(this)
               .find("a")
@@ -63,7 +64,12 @@ app.get("/scrape", function(req, res) {
             if (!result.summary) {
               result.summary = $(this)
                 .find("ul")
-                .text();
+                .contents()
+                .map(function() {
+                  return $(this).text() + " ";
+                })
+                .get()
+                .join("");
             }
 
             if (result.title && result.link && result.summary) {
