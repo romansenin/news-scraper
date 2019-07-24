@@ -17,18 +17,14 @@ html, body {
   background-color: #2980b9;
 }
 
-.navbar-toggle {
-  margin-top: 20px;
-}
-
-.navbar-dark .navbar-nav .nav-button:link,
-.navbar-dark .navbar-nav .nav-button:visited {
+.navbar-dark .navbar-nav .nav-button {
   font-size: 80%;
   margin: 0 5px;
   transition: color 0.2s, background-color 0.2s, border 0.2s;
   background-color: #236d9d;
   border-radius: 8px;
   color: rgb(223, 217, 217);
+  cursor: pointer;
 }
 
 .navbar-dark .navbar-nav .nav-button:hover,

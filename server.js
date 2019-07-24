@@ -1,8 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const axios = require("axios");
-const cheerio = require("cheerio");
 const exphbs = require("express-handlebars");
+const cheerio = require("cheerio");
 
 var db = require("./models");
 
@@ -28,41 +28,63 @@ app.get("/", function(req, res) {
 
 // A GET route for scraping the New York Times website
 app.get("/scrape", function(req, res) {
-  if (!req.query.data) {
-    axios.get("http://www.nytimes.com/").then(function(response) {
-      const $ = cheerio.load(response.data);
+  db.Article.find({})
+    .then(dbArticle => {
+      if (dbArticle.length) {
+        // found some articles
+        res.json(dbArticle);
+      } else {
+        // perform a scrape
 
-      const results = [];
+        axios.get("http://www.nytimes.com/").then(function(response) {
+          const $ = cheerio.load(response.data);
 
-      $("article").each(function(i, element) {
-        const result = {};
+          const results = [];
 
-        // Add the text and href of every link, and save them as properties of the result object
-        result.title = $(this)
-          .find("h2")
-          .text();
-        result.link =
-          "http://www.nytimes.com/" +
-          $(this)
-            .find("a")
-            .attr("href");
+          $("article").each(function(i, element) {
+            const result = {};
 
-        results.push(result);
-        // Create a new Article using the `result` object built from scraping
-        db.Article.create(result)
-          .then(function(dbArticle) {
-            console.log(dbArticle);
-          })
-          .catch(function(err) {
-            console.log(err);
+            // Add the text and href of every link, and save them as properties of the result object
+            result.title = $(this)
+              .find("h2")
+              .text();
+            result.link =
+              "http://www.nytimes.com/" +
+              $(this)
+                .find("a")
+                .attr("href");
+
+            if (result.title && result.link) {
+              results.push(result);
+            }
+
+            // Create a new Article using the `result` object built from scraping
+            db.Article.create(result)
+              .then(function(dbArticle) {
+                console.log(dbArticle);
+              })
+              .catch(function(err) {
+                console.log(err);
+              });
           });
-      });
 
-      res.json(results);
+          res.json(results);
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
     });
-  } else {
-    res.send("nope");
-  }
+});
+
+app.delete("/clear", function(req, res) {
+  db.Article.remove()
+    .then(result => {
+      res.send(200).end();
+    })
+    .catch(err => {
+      res.send(500).end();
+    });
 });
 
 // Route for getting all Articles from the db
