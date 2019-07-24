@@ -6,7 +6,8 @@ const exphbs = require("express-handlebars");
 
 var db = require("./models");
 
-const MONGODB_URI = "mongodb://localhost/mongoHeadlines";
+const MONGODB_URI =
+  process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 const app = express();
@@ -20,7 +21,6 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 app.get("/", function(req, res) {
-  // res.render("index");
   db.Article.find({}).then(dbArticle => {
     res.render("index", { articles: dbArticle });
   });
@@ -38,18 +38,20 @@ app.get("/scrape", function(req, res) {
         const result = {};
 
         // Add the text and href of every link, and save them as properties of the result object
-        result.title = $(this).find("h2").text();
+        result.title = $(this)
+          .find("h2")
+          .text();
         result.link =
           "http://www.nytimes.com/" +
           $(this)
             .find("a")
             .attr("href");
 
+        results.push(result);
         // Create a new Article using the `result` object built from scraping
         db.Article.create(result)
           .then(function(dbArticle) {
             console.log(dbArticle);
-            results.push(result);
           })
           .catch(function(err) {
             console.log(err);
