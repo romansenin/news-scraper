@@ -48,35 +48,35 @@ app.get("/scrape", function(req, res) {
             result.title = $(this)
               .find("h2")
               .text();
-            result.link =
-              "http://www.nytimes.com" +
-              $(this)
-                .find("a")
-                .attr("href");
+            result.link = $(this)
+              .find("a")
+              .attr("href");
+
+            if (result.link.charAt(0) === "/") {
+              result.link = "https://www.nytimes.com" + result.link;
+            }
 
             result.summary = $(this)
               .find("p")
               .text();
 
             if (!result.summary) {
-              result.summary = $(this).find("ul").text();
+              result.summary = $(this)
+                .find("ul")
+                .text();
             }
 
             if (result.title && result.link && result.summary) {
               results.push(result);
+              db.Article.create(result)
+                .then(function(dbArticle) {
+                  console.log(dbArticle);
+                })
+                .catch(function(err) {
+                  console.log(err);
+                });
             }
-
-            // Create a new Article using the `result` object built from scraping
-            db.Article.create(result)
-              .then(function(dbArticle) {
-                // console.log(dbArticle);
-              })
-              .catch(function(err) {
-                console.log(err);
-              });
           });
-
-          console.log(results);
 
           res.json(results);
         });
@@ -90,10 +90,10 @@ app.get("/scrape", function(req, res) {
 app.delete("/clear", function(req, res) {
   db.Article.deleteMany()
     .then(result => {
-      res.send(200).end();
+      res.sendStatus(200).end();
     })
     .catch(err => {
-      res.send(500).end();
+      res.sendStatus(500).end();
     });
 });
 
