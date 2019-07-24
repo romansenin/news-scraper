@@ -9,7 +9,11 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
+          {{#if data}}
+          <a class="nav-link nav-button" href="/scrape?data=">Scrape New Articles </a>
+          {{else}}
           <a class="nav-link nav-button" href="/scrape">Scrape New Articles </a>
+          {{/if}}
         </li>
         <li class="nav-item">
           <a class="nav-link nav-button" href="/clear">Clear Articles </a>
@@ -25,11 +29,14 @@
 </div>
 
 <div class="container">
-  {{#if data}}
-    <div class="articles">
-
-    </div>
+  {{#if articles}}
+  <div class="articles">
+    {{#each articles}}
+    <a href="{{this.link}}">
+      <h3>{{this.title}}</h3><a>
+        {{/each}}
+  </div>
   {{else}}
-    <h3>There aren't any news articles scraped yet!</h3>
+  <h3>There aren't any news articles scraped yet!</h3>
   {{/if}}
 </div>

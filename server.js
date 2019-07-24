@@ -6,8 +6,7 @@ const exphbs = require("express-handlebars");
 
 var db = require("./models");
 
-const MONGODB_URI =
-  process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+const MONGODB_URI = "mongodb://localhost/mongoHeadlines";
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 const app = express();
@@ -21,37 +20,47 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 app.get("/", function(req, res) {
-  res.render("index");
+  // res.render("index");
+  db.Article.find({}).then(dbArticle => {
+    res.render("index", { articles: dbArticle });
+  });
 });
 
 // A GET route for scraping the New York Times website
 app.get("/scrape", function(req, res) {
-  axios.get("http://www.nytimes.com/").then(function(response) {
-    const $ = cheerio.load(response.data);
+  if (!req.query.data) {
+    axios.get("http://www.nytimes.com/").then(function(response) {
+      const $ = cheerio.load(response.data);
 
-    $("article").each(function(i, element) {
-      const result = {};
+      const results = [];
 
-      // Add the text and href of every link, and save them as properties of the result object
-      result.title = $(this)
-        .children("a")
-        .text();
-      result.link = $(this)
-        .children("a")
-        .attr("href");
+      $("article").each(function(i, element) {
+        const result = {};
 
-      // Create a new Article using the `result` object built from scraping
-      db.Article.create(result)
-        .then(function(dbArticle) {
-          console.log(dbArticle);
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
+        // Add the text and href of every link, and save them as properties of the result object
+        result.title = $(this).find("h2").text();
+        result.link =
+          "http://www.nytimes.com/" +
+          $(this)
+            .find("a")
+            .attr("href");
+
+        // Create a new Article using the `result` object built from scraping
+        db.Article.create(result)
+          .then(function(dbArticle) {
+            console.log(dbArticle);
+            results.push(result);
+          })
+          .catch(function(err) {
+            console.log(err);
+          });
+      });
+
+      res.json(results);
     });
-
-    res.send("Scrape Complete");
-  });
+  } else {
+    res.send("nope");
+  }
 });
 
 // Route for getting all Articles from the db
