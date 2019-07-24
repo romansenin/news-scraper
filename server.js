@@ -49,7 +49,7 @@ app.get("/scrape", function(req, res) {
               .find("h2")
               .text();
             result.link =
-              "http://www.nytimes.com/" +
+              "http://www.nytimes.com" +
               $(this)
                 .find("a")
                 .attr("href");
@@ -69,12 +69,14 @@ app.get("/scrape", function(req, res) {
             // Create a new Article using the `result` object built from scraping
             db.Article.create(result)
               .then(function(dbArticle) {
-                console.log(dbArticle);
+                // console.log(dbArticle);
               })
               .catch(function(err) {
                 console.log(err);
               });
           });
+
+          console.log(results);
 
           res.json(results);
         });
@@ -86,7 +88,7 @@ app.get("/scrape", function(req, res) {
 });
 
 app.delete("/clear", function(req, res) {
-  db.Article.remove()
+  db.Article.deleteMany()
     .then(result => {
       res.send(200).end();
     })

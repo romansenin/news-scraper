@@ -4,9 +4,10 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   color: #555;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 20px;
   font-weight: 400;
   text-rendering: optimizeLegibility;
@@ -23,7 +24,7 @@ html, body {
   transition: color 0.2s, background-color 0.2s, border 0.2s;
   background-color: #236d9d;
   border-radius: 8px;
-  color: rgb(223, 217, 217);
+  color: #fff;
   cursor: pointer;
 }
 
@@ -31,7 +32,7 @@ html, body {
 .navbar-dark .navbar-nav .nav-button:active {
   background-color: #1d5a81;
   border-radius: 8px;
-  color: rgb(255, 255, 255);
+  color: #fff;
 }
 
 .hero-wrapper {
@@ -48,7 +49,7 @@ header {
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: "Share Tech Mono", monospace;
 }
 
 h1 {
@@ -67,4 +68,39 @@ h3 {
   border-radius: 3px;
   margin: 20px 0;
   font-size: 90%;
+  text-align: center;
+}
+
+.container a:link,
+.container a:visited {
+  text-decoration: none;
+}
+
+.container .card {
+  margin: 25px 0;
+}
+
+.container .card .card-body {
+  padding: 0;
+}
+
+.container .card .card-body .card-title {
+  font-size: 90%;
+  background-color: #2980b9;
+  padding: 20px;
+  border-bottom: 1px solid #ccc;
+  border-radius: 3px;
+  color: #fff;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.container .card .card-body .card-title:hover,
+.container .card .card-body .card-title:active {
+  text-decoration: underline;
+}
+
+.container .card .card-body .card-text {
+  font-size: 80%;
+  color: #444;
+  padding: 5px 20px 20px;
 }
