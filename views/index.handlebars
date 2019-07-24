@@ -26,15 +26,19 @@
 
 <div class="container">
   {{#if articles}}
-  <div class="articles">
-    {{#each articles}}
-    <a target="_blank" href="{{this.link}}">
-      <h3>{{this.title}}</h3><a>
-        {{/each}}
-  </div>
-  {{else}}
-  <h3>There aren't any news articles scraped yet!</h3>
-  {{/if}}
+  {{#each articles}}
+  <a target="_blank" href="{{this.link}}">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{this.title}}</h5>
+        <p class="card-text">{{this.summary}}</p>
+      </div>
+    </div>
+    <a>
+      {{/each}}
+      {{else}}
+      <h3>There aren't any news articles scraped yet!</h3>
+      {{/if}}
 </div>
 
 <script src="./app.js"></script>

@@ -54,7 +54,15 @@ app.get("/scrape", function(req, res) {
                 .find("a")
                 .attr("href");
 
-            if (result.title && result.link) {
+            result.summary = $(this)
+              .find("p")
+              .text();
+
+            if (!result.summary) {
+              result.summary = $(this).find("ul").text();
+            }
+
+            if (result.title && result.link && result.summary) {
               results.push(result);
             }
 
